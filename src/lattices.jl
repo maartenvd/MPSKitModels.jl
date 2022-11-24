@@ -184,7 +184,8 @@ end
 
 function radial_neighbours(ladder::InfiniteLadder)
     radial_shift = LatticePoint((1, 0), ladder)
-    verts = (LatticePoint((i, j), ladder) for i in 1:(ladder.L - 1), j in 1:(ladder.N ÷ ladder.L))
+    verts = (LatticePoint((i, j), ladder) for i in 1:(ladder.L - 1),
+                                              j in 1:(ladder.N ÷ ladder.L))
     return zip(verts, verts .+ radial_shift)
 end
 
@@ -219,7 +220,6 @@ end
 vertices(snake::SnakePattern) = vertices(snake.lattice)
 nearest_neighbours(snake::SnakePattern) = vertices(snake.lattice)
 bipartition(snake::SnakePattern) = bipartition(snake.lattice)
-
 
 """
     backandforth_pattern(cylinder)
@@ -271,11 +271,6 @@ represents an `N`-dimensional point on a `G` lattice.
 struct LatticePoint{N,G<:AbstractLattice}
     coordinates::NTuple{N,Int}
     lattice::G
-end
-
-function LatticePoint(inds::NTuple{2,Int}, lattice::InfiniteCylinder)
-    modded_inds = (mod1(inds[1], lattice.circumference), inds[2])
-    return LatticePoint{2,InfiniteCylinder}(modded_inds, lattice)
 end
 
 linearize_index(p::LatticePoint) = linearize_index(p.lattice, p.coordinates...)
